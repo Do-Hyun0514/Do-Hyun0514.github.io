@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Do Hyun Kim</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f7f5f0;
+    --surface: #ffffff;
+    --text: #1a1916;
+    --muted: #7a7670;
+    --accent: #2d5a3d;
+    --accent-light: #e8f0eb;
+    --border: #e2dfd8;
+    --mono: 'DM Mono', monospace;
+    --serif: 'DM Serif Display', serif;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* layout */
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* top bar */
+  nav {
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  nav .wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .nav-name {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+  }
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* hero */
+  .hero {
+    padding: 4rem 0 3rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 3rem;
+    align-items: start;
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(2.2rem, 5vw, 3rem);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-role {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    margin-bottom: 1.5rem;
+  }
+  .hero-bio {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.75;
+    max-width: 480px;
+    font-weight: 300;
+  }
+  .hero-bio a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+
+  /* profile photo */
+  .photo-wrap {
+    width: 120px;
+    flex-shrink: 0;
+  }
+  .photo-box {
+    width: 120px;
+    height: 144px;
+    background: var(--accent-light);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+  }
+  .photo-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .photo-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .photo-placeholder svg {
+    width: 28px;
+    height: 28px;
+    stroke: var(--accent);
+    opacity: 0.4;
+  }
+  .photo-placeholder span {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--accent);
+    opacity: 0.5;
+    letter-spacing: 0.05em;
+  }
+
+  /* contact chips */
+  .chips {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 5px 10px;
+    background: var(--surface);
+    transition: border-color 0.2s, color 0.2s;
+    letter-spacing: 0.02em;
+  }
+  .chip:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .chip svg {
+    width: 12px;
+    height: 12px;
+    stroke: currentColor;
+    flex-shrink: 0;
+  }
+
+  /* sections */
+  section {
+    padding: 3rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  section:last-of-type { border-bottom: none; }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  /* interests */
+  .interest-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .interest-item {
+    background: var(--surface);
+    padding: 1.25rem 1.5rem;
+  }
+  .interest-item h3 {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .interest-item p {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 300;
+    line-height: 1.5;
+  }
+
+  /* affiliation */
+  .affil-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 1.5rem;
+  }
+  .affil-row {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 0.75rem 1.5rem;
+    align-items: baseline;
+    font-size: 14px;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .affil-row:last-child { border-bottom: none; }
+  .affil-key {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  .affil-val { color: var(--text); }
+  .affil-val a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+
+  /* news */
+  .news-empty {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    padding: 1rem 0;
+    opacity: 0.6;
+  }
+
+  /* footer */
+  footer {
+    padding: 2rem 0;
+    text-align: center;
+  }
+  footer p {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    opacity: 0.6;
+    letter-spacing: 0.04em;
+  }
+
+  /* fade-in animation */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(12px);
+    animation: fadeUp 0.5s ease forwards;
+  }
+  .fade-in:nth-child(1) { animation-delay: 0.05s; }
+  .fade-in:nth-child(2) { animation-delay: 0.12s; }
+  .fade-in:nth-child(3) { animation-delay: 0.19s; }
+  .fade-in:nth-child(4) { animation-delay: 0.26s; }
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* responsive */
+  @media (max-width: 540px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .photo-wrap { order: -1; }
+    .photo-box { width: 88px; height: 106px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <span class="nav-name">dhk</span>
+    <ul class="nav-links">
+      <li><a href="#about">about</a></li>
+      <li><a href="#interests">interests</a></li>
+      <li><a href="#affiliation">affiliation</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <div class="wrap">
+
+    <!-- hero -->
+    <section class="hero" id="about">
+      <div class="hero-inner">
+        <div class="fade-in">
+          <p class="hero-role">B.S. STUDENT · ARTIFICIAL INTELLIGENCE</p>
+          <h1>Do Hyun<br><em>Kim</em></h1>
+          <p class="hero-bio">
+            Undergraduate student at Kyung Hee University, affiliated with the
+            <a href="https://hci.khu.ac.kr/" target="_blank" rel="noopener">Interactive Technology &amp; Methodology (ITEM) Lab</a>.
+            Broadly interested in the intersection of human behavior and intelligent systems.
+          </p>
+          <div class="chips">
+            <a class="chip" href="mailto:dhkim06@khu.ac.kr">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+              dhkim06@khu.ac.kr
+            </a>
+            <a class="chip" href="https://github.com/Do-Hyun0514" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+              Do-Hyun0514
+            </a>
+          </div>
+        </div>
+        <div class="photo-wrap fade-in">
+          <div class="photo-box">
+            <!-- 사진을 넣으려면: assets/img/profile.jpg 에 파일 추가 후 아래 주석 해제 -->
+            <!-- <img src="assets/img/profile.jpg" alt="Do Hyun Kim"> -->
+            <div class="photo-placeholder">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+              <span>photo</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- interests -->
+    <section id="interests" class="fade-in">
+      <p class="section-label">Research Interests</p>
+      <div class="interest-grid">
+        <div class="interest-item">
+          <h3>HCI</h3>
+          <p>Human-Computer Interaction</p>
+        </div>
+        <div class="interest-item">
+          <h3>Robotics</h3>
+          <p>Human-Robot Interaction &amp; Systems</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- affiliation -->
+    <section id="affiliation" class="fade-in">
+      <p class="section-label">Affiliation</p>
+      <div class="affil-block">
+        <div class="affil-row">
+          <span class="affil-key">university</span>
+          <span class="affil-val">Kyung Hee University</span>
+        </div>
+        <div class="affil-row">
+          <span class="affil-key">department</span>
+          <span class="affil-val">Dept. of Artificial Intelligence</span>
+        </div>
+        <div class="affil-row">
+          <span class="affil-key">lab</span>
+          <span class="affil-val"><a href="https://hci.khu.ac.kr/" target="_blank" rel="noopener">ITEM Lab (Interactive Technology &amp; Methodology)</a></span>
+        </div>
+        <div class="affil-row">
+          <span class="affil-key">degree</span>
+          <span class="affil-val">B.S. (2nd year)</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- news -->
+    <section class="fade-in">
+      <p class="section-label">News</p>
+      <p class="news-empty">// nothing yet — stay tuned</p>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>© 2026 Do Hyun Kim · Last updated May 2026</p>
+  </div>
+</footer>
+
+</body>
+</html>
